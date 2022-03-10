@@ -32,7 +32,6 @@ bool shouldOverride(const char* path);
 
 StudentRecord* loadStudentData(int& studentsAmount, const char* path, const bool& binary);
 
-
 int main()
 {
     bool binary;
@@ -58,6 +57,8 @@ int main()
             printAllStudents(pathToFile, binary);
             break;
         case 3:
+            // I can save the data from one file to another without a separate function
+            // that loads it into memory but I wanted to try and make it like that :)))
             myStudents = loadStudentData(studentsAmount, pathToFile, binary);
             saveToFile(myStudents, studentsAmount, ".csv", false);
             break;
