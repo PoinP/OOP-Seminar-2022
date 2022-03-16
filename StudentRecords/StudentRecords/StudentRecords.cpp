@@ -40,7 +40,7 @@ int main()
 
     int userValue;
     int studentsAmount;
-    StudentRecord* myStudents;
+    StudentRecord* myStudents = loadStudentData(studentsAmount, pathToFile, binary);;
 
     do
     {
@@ -74,6 +74,8 @@ int main()
             break;
         }
     } while (userValue != 9);
+
+    delete[] myStudents;
 }
 
 #pragma region Menu
