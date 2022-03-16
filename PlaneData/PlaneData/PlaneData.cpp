@@ -357,6 +357,22 @@ int getRandom(int start, int end)
 
 void generateData(const char* path, const int& amount)
 {
+	if (!doesFileExist(path))
+	{
+		std::cout << "The file " << path << " doesn't exist!\n" << std::endl;
+		return;
+	}
+
+	Plane newPlane;
+
+	std::ofstream outputStream(path, std::ios::binary | std::ios::app);
+
+	if (!outputStream.is_open())
+	{
+		std::cout << "Error opening file! No plane has been saved!\n" << std::endl;
+		return;
+	}
+
 	const char types[6][256] =
 	{
 		"Fighter",
@@ -364,7 +380,7 @@ void generateData(const char* path, const int& amount)
 		"Bomber",
 		"Jet Aircraft",
 		"Airliner",
-		"Heavy FIghter"
+		"Heavy Fighter"
 	};
 
 	const char planes[23][256] =
@@ -394,22 +410,6 @@ void generateData(const char* path, const int& amount)
 		"Mil Mi-8"
 	};
 
-	if (!doesFileExist(path))
-	{
-		std::cout << "The file " << path << " doesn't exist!\n" << std::endl;
-		return;
-	}
-
-	Plane newPlane;
-
-	std::ofstream outputStream(path, std::ios::binary | std::ios::app);
-
-	if (!outputStream.is_open())
-	{
-		std::cout << "Error opening file! No plane has been saved!\n" << std::endl;
-		return;
-	}
-
 	for (int i = 0; i < amount; i++)
 	{
 		newPlane.id = getRandom(100000, 999999);
@@ -417,13 +417,13 @@ void generateData(const char* path, const int& amount)
 		strcpy_safe(newPlane.type, types[getRandom(0, 5)], 256);
 		newPlane.flights = getRandom(50, 10000);
 
-		if (writePlaneInfo(outputStream, newPlane))
-			std::cout << "Record saved!\n" << std::endl;
-		else
+		if (!writePlaneInfo(outputStream, newPlane))
 			std::cout << "Error saving the record! Please try again!\n" << std::endl;
 	}
 
 	outputStream.close();
+
+	std::cout << "Generated " << amount << " entries!\n" << std::endl;
 }
 
 #pragma endregion
